@@ -36,6 +36,7 @@ def memberDashboard(email, conn):
                         height = input("Height: ")
                         weight = input("Weight: ")
                         curs.execute('UPDATE members SET height = %s, curr_weight = %s WHERE member_email = %s', ((height, weight, email)))
+                        conn.commit()
                     case "3":
                         curs.execute('SELECT (goal_weight, goal_desc) FROM members WHERE member_email = %s', ((email,)))
                         print(curs.fetchone()[0])
@@ -43,15 +44,36 @@ def memberDashboard(email, conn):
                         goal_weight = input("Goal Weight: ")
                         goal_desc = input("Goal Description: ")
                         curs.execute('UPDATE members SET goal_weight = %s, goal_desc = %s WHERE member_email = %s', ((goal_weight, goal_desc, email)))
+                        conn.commit()
                     case "5":
                         print("FITNESS ACHIEVEMENTS")
-                    case "7":
-                        curs.execute('SELECT * FROM training_sessions WHERE member_email IS NULL')
+                    case "6":
+                        curs.execute('SELECT * FROM training_sessions WHERE member_email = %s', ((email,)))
+                        print("Registered Personal Training Sessions")
                         rows = curs.fetchall()
                         for row in rows:
                             print("Session ID: " + str(row[0]))
                             print("Trainer: " + row[1])
                             print("Time: " + str(row[2]) + "\n")
+                    case "7":
+                        curs.execute('SELECT * FROM training_sessions WHERE member_email IS NULL')
+                        rows = curs.fetchall()
+                        if rows != []:
+                            for row in rows:
+                                print("Session ID: " + str(row[0]))
+                                print("Trainer: " + row[1])
+                                print("Time: " + str(row[2]) + "\n")
+                            choice = input("Which session would you like to book?: ")
+                            curs.execute('SELECT * FROM training_sessions WHERE session_id = %s', ((choice,)))
+                            if curs.fetchall() != []:
+                                curs.execute('UPDATE training_sessions SET member_email = %s WHERE session_id = %s', ((email, choice)))
+                                conn.commit()
+                                print("Successfully registered for the session!\n")
+                            else:
+                                print("Session ID invalid")
+                        else:
+                            print("No available sessions")
                     case "10":
                         break
+            curs.close()
             return False

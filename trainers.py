@@ -1,5 +1,3 @@
-from config import parseCursorFetch
-
 def loginTrainer(email, conn):
     with conn:
         with conn.cursor() as curs:
@@ -22,7 +20,8 @@ def trainerDashboard(email, conn):
                         time = input("Time of training session (in HH:MM format): ")
                         date_time = date + " " + time + ":00"
                         curs.execute('INSERT INTO training_sessions (trainer_email, timeslot) VALUES (%s, %s)', ((email, date_time)))
+                        conn.commit()
                     case "3":
                         break
-                    
+            curs.close()
             return False

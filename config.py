@@ -16,11 +16,4 @@ def getFields():
     else:
         raise Exception("Invalid database.ini file")
 
-    return data 
-
-def parseCursorFetch(curs):
-    for item in curs.fetchall():
-        a, b = item  # Unpack the tuple
-        print("First element:", a)
-        print("Second element:", b)
-        print()  # Add a blank line between items
+    return data
