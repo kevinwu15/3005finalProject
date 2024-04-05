@@ -32,5 +32,14 @@ CREATE TABLE training_sessions (
     FOREIGN KEY (trainer_email) REFERENCES trainers(trainer_email),
     timeslot TIMESTAMP,
     member_email VARCHAR(255),
-    FOREIGN KEY (member_email) REFERENCES members(member_email)
+    FOREIGN KEY (member_email) REFERENCES members(member_email),
+);
+
+CREATE TABLE room_bookings (
+    booking_ID SERIAL PRIMARY KEY,
+    room_number INT,
+    CONSTRAINT CHK_ValidRoomNum CHECK (room_number >= 1 AND room_number <= 10),
+    member_email VARCHAR(255),
+    FOREIGN KEY (member_email) REFERENCES members(member_email),
+    timeslot TIMESTAMP
 );

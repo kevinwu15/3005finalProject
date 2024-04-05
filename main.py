@@ -2,6 +2,7 @@ import psycopg2
 from config import getFields
 from members import *
 from trainers import *
+from admin import *
 
 if __name__ == "__main__":
     # Attempting to connect to the database by using the psycopg2 connect
@@ -41,6 +42,14 @@ if __name__ == "__main__":
                         loggedIn = trainerDashboard(email, conn)
                     else:
                         print("Unsuccessful login, this email is not a registered trainer\n")
+                case "4":
+                    email = input("Email: ")
+                    loggedIn = loginAdmin(email, conn)
+                    if loggedIn:
+                        print("Successfully logged in as %s\n" % email)
+                        loggedIn = adminDashboard(email, conn)
+                    else:
+                        print("Unsuccessful login, this email is not a registered admin\n")
                 case "5":
                     # Exit loop
                     loggedIn = True

@@ -29,25 +29,31 @@ def memberDashboard(email, conn):
                     case "1":
                         curs.execute('SELECT (first_name, last_name, member_email, height, curr_weight) FROM members WHERE member_email = %s', ((email,)))
                         print(curs.fetchone()[0])
+                        print()
 
                     case "2":
                         height = input("Height: ")
                         weight = input("Weight: ")
+                        print()
                         curs.execute('UPDATE members SET height = %s, curr_weight = %s WHERE member_email = %s', ((height, weight, email)))
                         conn.commit()
 
                     case "3":
                         curs.execute('SELECT (goal_weight, goal_desc) FROM members WHERE member_email = %s', ((email,)))
                         print(curs.fetchone()[0])
+                        print()
 
                     case "4":
                         goal_weight = input("Goal Weight: ")
                         goal_desc = input("Goal Description: ")
+                        print()
                         curs.execute('UPDATE members SET goal_weight = %s, goal_desc = %s WHERE member_email = %s', ((goal_weight, goal_desc, email)))
                         conn.commit()
 
                     case "5":
-                        print("FITNESS ACHIEVEMENTS")
+                        curs.execute('SELECT (content) FROM fitness_achievements WHERE member_email = %s', ((email,)))
+                        print(curs.fetchone()[0])
+                        print()
 
                     case "6":
                         curs.execute('SELECT * FROM training_sessions WHERE member_email = %s', ((email,)))
@@ -73,9 +79,9 @@ def memberDashboard(email, conn):
                                 conn.commit()
                                 print("Successfully booked this session!\n")
                             else:
-                                print("Session ID invalid")
+                                print("Session ID invalid\n")
                         else:
-                            print("No available sessions")
+                            print("No available sessions\n")
                     
                     case "8":
                         curs.execute('SELECT * FROM training_sessions WHERE member_email = %s', ((email,)))
@@ -92,7 +98,7 @@ def memberDashboard(email, conn):
                             conn.commit()
                             print("Successfully cancelled this session\n")
                         else:
-                            print("Session ID invalid")
+                            print("Session ID invalid\n")
 
                     case "10":
                         break
