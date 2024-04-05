@@ -29,6 +29,12 @@ def adminDashboard(email, conn):
 
                     case "2":
                         room_num = input("Room number: ")
+                        if not room_num.isdigit():
+                            print("Invalid room number\n")
+                            break
+                        if int(room_num) < 1 or int(room_num) > 10:
+                            print("Invalid room number\n")
+                            break
                         member_email = input("Member email: ")
                         date = input("Date of booked room session (in YYYY-MM-DD format): ")
                         time = input("Time of booked room session (in HH:MM format): ")
