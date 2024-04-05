@@ -65,7 +65,76 @@ def adminDashboard(email, conn):
                             print("Room booking deleted\n")
                         else:
                             print("Failed to delete room booking\n")
-                        
+                    
+                    case "4":
+                        curs.execute('SELECT * FROM equipment_maintenance')
+                        rows = curs.fetchall()
+                        if rows == []:
+                            print("No equipment under maintenance\n")
+                        else:
+                            for row in rows:
+                                print(row[0])
+                                print("Maintenance start date: " + str(row[1]) + "\n")
+                    
+                    case "5":
+                        curs.execute('SELECT * FROM group_sessions')
+                        rows = curs.fetchall()
+                        if rows == []:
+                            print("No group sessions\n")
+                        else:
+                            for row in rows:
+                                print(row[1])
+                                print(str(row[2]))
+                                curs.execute('SELECT member_email FROM group_session_registered WHERE session_id = %s', ((row[0],)))
+                                print("Registered members:")
+                                print(curs.fetchall())
+                    
+                    case "6":
+                        session_name = input("Session name: ")
+                        date = input("Date of group session (in YYYY-MM-DD format): ")
+                        time = input("Time of group session (in HH:MM format): ")
+                        session_time = date + " " + time + ":00"
+                        curs.execute('INSERT INTO group_sessions (session_name, timeslot) VALUES (%s, %s)', ((session_name, session_time)))
+                        conn.commit()
+                        print("Session added\n")
+                    
+                    case "7":
+                        curs.execute('SELECT * FROM group_sessions')
+                        rows = curs.fetchall()
+                        if rows == []:
+                            print("No group sessions\n")
+                            break
+                        else:
+                            for row in rows:
+                                print("Session ID: " + str(row[0]))
+                                print(row[1])
+                                print(str(row[2]) + "\n")
+                        choice = input("Which session should be removed?: ")
+                        if not choice.isdigit():
+                            print("Invalid input\n")
+                            break
+                        curs.execute('DELETE FROM group_session_registered WHERE session_id = %s', ((choice,)))
+                        curs.execute('DELETE FROM group_sessions WHERE session_id = %s', ((choice,)))
+                        conn.commit()
+                        print()
+
+                    case "8":
+                        curs.execute('SELECT * FROM payments')
+                        rows = curs.fetchall()
+                        if rows == []:
+                            print("No payments to process\n")
+                            break 
+                        else:
+                            for row in rows:
+                                print("Payment ID: " + str(row[0]))
+                                print(row[1])
+                                print("$" + str(row[2]))
+                        choice = input("Which payment should be processed?: ")
+                        if not choice.isdigit():
+                            print("Invalid input\n")
+                            break
+                        curs.execute('DELETE FROM payments WHERE payment_id = %s', ((choice,)))
+
                     case "9":
                         break
             curs.close()

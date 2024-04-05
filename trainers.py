@@ -19,8 +19,16 @@ def trainerDashboard(email, conn):
                         date = input("Date of training session (in YYYY-MM-DD format): ")
                         time = input("Time of training session (in HH:MM format): ")
                         date_time = date + " " + time + ":00"
-                        curs.execute('INSERT INTO training_sessions (trainer_email, timeslot) VALUES (%s, %s)', ((email, date_time)))
+                        fee = input("Fee: ")
+                        curs.execute('INSERT INTO training_sessions (trainer_email, timeslot, fee) VALUES (%s, %s, %s)', ((email, date_time, fee)))
                         conn.commit()
+                    case "2":
+                        curs.execute('SELECT first_name, last_name, member_email FROM members')
+                        rows = curs.fetchall()
+                        if rows != []:
+                            for row in rows:
+                                print(row[0] + " " + row[1])
+                                print(row[2] + "\n")
                     case "3":
                         break
             curs.close()

@@ -8,6 +8,6 @@ The information used should be the same that's prompted by PSQL, and use the nam
 -To run the program, run "python main.py" when in the program directory.
 
 Code reuse:
-I reused small portions of my main.py python code from my 3005A3Q1 (Github link: https://github.com/kevinwu15/3005a3p1)
+I reused small portions of my code from my 3005A3Q1, since it's the same database connection process (Github link: https://github.com/kevinwu15/3005a3p1)
 
 Video link:
