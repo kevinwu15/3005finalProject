@@ -1,8 +1,8 @@
-INSERT INTO members (member_email, first_name, last_name, height, curr_weight, goal_weight, goal_desc) VALUES ('testmember@email.com', 'Joe', 'Smith', 170, 135, 140, 'Gain muscle');
+INSERT INTO members (member_email, member_password, first_name, last_name, height, curr_weight, goal_weight, goal_desc) VALUES ('testmember@email.com', 'testpassword', 'Joe', 'Smith', 170, 135, 140, 'Gain muscle');
 
-INSERT INTO trainers (trainer_email, first_name, last_name) VALUES ('trainer@email.com', 'Bob', 'Jones');
+INSERT INTO trainers (trainer_email, trainer_password, first_name, last_name) VALUES ('trainer@email.com', 'trainer', 'Bob', 'Jones');
 
-INSERT INTO admin (admin_email, first_name, last_name) VALUES ('admin@email.com', 'Admin', 'A');
+INSERT INTO admin (admin_email, admin_password, first_name, last_name) VALUES ('admin@email.com', 'admin', 'Admin', 'A');
 
 INSERT INTO fitness_achievements (member_email, content) VALUES ('testmember@email.com', 'Gained 5 pounds!');
 

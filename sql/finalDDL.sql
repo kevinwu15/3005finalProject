@@ -1,5 +1,6 @@
 CREATE TABLE members (
     member_email VARCHAR(255) PRIMARY KEY,
+    member_password VARCHAR(255) NOT NULL,
 	first_name VARCHAR(255) NOT NULL,
 	last_name VARCHAR(255) NOT NULL,
     height INT,
@@ -10,12 +11,14 @@ CREATE TABLE members (
 
 CREATE TABLE trainers (
     trainer_email VARCHAR(255) PRIMARY KEY,
+    trainer_password VARCHAR(255) NOT NULL,
     first_name VARCHAR(255) NOT NULL,
 	last_name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE admin (
     admin_email VARCHAR(255) PRIMARY KEY,
+    admin_password VARCHAR(255) NOT NULL,
     first_name VARCHAR(255) NOT NULL,
 	last_name VARCHAR(255) NOT NULL
 );

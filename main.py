@@ -33,7 +33,7 @@ if __name__ == "__main__":
                         print("Successfully logged in as %s\n" % email)
                         loggedIn = memberDashboard(email, conn)
                     else:
-                        print("Unsuccessful login, this email is not registered, register instead\n")
+                        print("Unsuccessful login\n")
                 case "3":
                     email = input("Email: ")
                     loggedIn = loginTrainer(email, conn)
@@ -41,7 +41,7 @@ if __name__ == "__main__":
                         print("Successfully logged in as %s\n" % email)
                         loggedIn = trainerDashboard(email, conn)
                     else:
-                        print("Unsuccessful login, this email is not a registered trainer\n")
+                        print("Unsuccessful login\n")
                 case "4":
                     email = input("Email: ")
                     loggedIn = loginAdmin(email, conn)
@@ -49,7 +49,7 @@ if __name__ == "__main__":
                         print("Successfully logged in as %s\n" % email)
                         loggedIn = adminDashboard(email, conn)
                     else:
-                        print("Unsuccessful login, this email is not a registered admin\n")
+                        print("Unsuccessful login\n")
                 case "5":
                     # Exit loop
                     loggedIn = True

@@ -5,7 +5,8 @@ def registerMember(email, first_name, last_name, conn):
             if curs.fetchall() != []:
                 curs.close()
                 return False
-            curs.execute('INSERT INTO members (member_email, first_name, last_name) VALUES (%s, %s, %s);', ((email, first_name, last_name)))
+            password = input("Set password: ")
+            curs.execute('INSERT INTO members (member_email, member_password, first_name, last_name) VALUES (%s, %s, %s, %s);', ((email, password, first_name, last_name)))
             curs.close()
             return True
 
@@ -14,6 +15,12 @@ def loginMember(email, conn):
         with conn.cursor() as curs:
             curs.execute('SELECT * FROM members WHERE member_email = %s;', ((email,)))
             if curs.fetchall() == []:
+                curs.close()
+                return False
+            password = input("Enter password: ")
+            curs.execute('SELECT member_password FROM members WHERE member_email = %s', ((email,)))
+            row = curs.fetchone()
+            if password != row[0]:
                 curs.close()
                 return False
             curs.close()

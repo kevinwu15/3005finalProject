@@ -5,6 +5,12 @@ def loginAdmin(email, conn):
             if curs.fetchall() == []:
                 curs.close()
                 return False
+            password = input("Enter password: ")
+            curs.execute('SELECT admin_password FROM admin WHERE admin_email = %s', ((email,)))
+            row = curs.fetchone()
+            if password != row[0]:
+                curs.close()
+                return False
             curs.close()
             return True
 
