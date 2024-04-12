@@ -7,6 +7,7 @@ def registerMember(email, first_name, last_name, conn):
                 return False
             password = input("Set password: ")
             curs.execute('INSERT INTO members (member_email, member_password, first_name, last_name) VALUES (%s, %s, %s, %s);', ((email, password, first_name, last_name)))
+            curs.execute('INSERT INTO payments (member_email, amount, payment_desc) VALUES (%s, %s, %s)', ((email, 250, "Registration")))
             curs.close()
             return True
 
@@ -103,7 +104,7 @@ def memberDashboard(email, conn):
                                 curs.execute('SELECT fee FROM training_sessions WHERE session_id = %s', ((choice,)))
                                 fee = curs.fetchone()[0]
                                 curs.execute('UPDATE training_sessions SET member_email = %s WHERE session_id = %s', ((email, choice)))
-                                curs.execute('INSERT INTO payments (member_email, amount) VALUES (%s, %s)', ((email, fee)))
+                                curs.execute('INSERT INTO payments (member_email, amount, payment_desc) VALUES (%s, %s, %s)', ((email, fee, "Personal Training")))
                                 conn.commit()
                                 print("Successfully booked this session!\n")
                             else:

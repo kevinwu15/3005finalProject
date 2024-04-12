@@ -39,25 +39,40 @@ CREATE TABLE training_sessions (
     fee NUMERIC NOT NULL
 );
 
+CREATE TABLE rooms (
+    room_number SERIAL PRIMARY KEY,
+    room_name TEXT
+);
+
 CREATE TABLE room_bookings (
     booking_id SERIAL PRIMARY KEY,
-    room_number INT NOT NULL,
+    room_number INT,
+    FOREIGN KEY (room_number) REFERENCES rooms(room_number),
     CONSTRAINT CHK_ValidRoomNum CHECK (room_number >= 1 AND room_number <= 10),
-    member_email VARCHAR(255),
-    FOREIGN KEY (member_email) REFERENCES members(member_email),
-    timeslot TIMESTAMP NOT NULL
+    timeslot TIMESTAMP NOT NULL,
+    admin_email VARCHAR(255),
+    FOREIGN KEY (admin_email)  REFERENCES admin(admin_email)
+);
+
+CREATE TABLE equipment (
+    equipment_id SERIAL PRIMARY KEY,
+    equipment_desc TEXT NOT NULL
 );
 
 CREATE TABLE equipment_maintenance (
-    equipment_id SERIAL PRIMARY KEY,
-    equipment_desc TEXT NOT NULL,
-    date_start DATE NOT NULL
+    equipment_id INT,
+    FOREIGN KEY (equipment_id) REFERENCES equipment(equipment_id),
+    date_start DATE NOT NULL,
+    admin_email VARCHAR(255),
+    FOREIGN KEY (admin_email) REFERENCES admin(admin_email)
 );
 
 CREATE TABLE group_sessions (
     session_id SERIAL PRIMARY KEY,
     session_name VARCHAR(255) NOT NULL,
-    timeslot TIMESTAMP NOT NULL
+    timeslot TIMESTAMP NOT NULL,
+    admin_email VARCHAR(255),
+    FOREIGN KEY (admin_email) REFERENCES admin(admin_email)
 );
 
 CREATE TABLE group_session_registered (
@@ -71,5 +86,8 @@ CREATE TABLE payments (
     payment_id SERIAL PRIMARY KEY,
     member_email VARCHAR(255),
     FOREIGN KEY (member_email) REFERENCES members(member_email),
-    amount NUMERIC NOT NULL
+    amount NUMERIC NOT NULL,
+    payment_desc TEXT,
+    admin_email VARCHAR(255),
+    FOREIGN KEY (admin_email) REFERENCES admin(admin_email)
 );
