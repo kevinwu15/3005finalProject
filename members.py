@@ -53,7 +53,7 @@ def memberDashboard(email, conn):
                         curs.execute('SELECT goal_weight, goal_desc FROM members WHERE member_email = %s', ((email,)))
                         row = curs.fetchone()
                         print("Goal Weight: " + str(row[0]))
-                        print("Goal Description: " + row[1] + "\n")
+                        print("Goal Description: " + str(row[1]) + "\n")
 
                     case "4":
                         goal_weight = input("Goal Weight: ")

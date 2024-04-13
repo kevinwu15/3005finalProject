@@ -33,7 +33,12 @@ def adminDashboard(email, conn):
                                 print("Time: " + str(row[2]) + "\n")
 
                     case "2":
-                        room_num = input("Room number: ")
+                        curs.execute('SELECT * FROM rooms')
+                        rows = curs.fetchall()
+                        for row in rows:
+                            print(row[1])
+                            print("Room number: " + str(row[0]) + "\n")
+                        room_num = input("Book which room number: ")
                         if not room_num.isdigit():
                             print("Invalid room number\n")
                             break
@@ -109,7 +114,7 @@ def adminDashboard(email, conn):
                                 print("Equipment ID: " + str(row[0]))
                                 curs.execute('SELECT equipment_desc FROM equipment WHERE equipment_id = %s', ((row[0],)))
                                 print(curs.fetchone()[0])
-                                print("Maintenance start date: " + str(row[2]) + "\n")
+                                print("Maintenance start date: " + str(row[1]) + "\n")
                     
                     case "6":
                         curs.execute('SELECT equipment.* FROM equipment LEFT JOIN equipment_maintenance ON equipment.equipment_id = equipment_maintenance.equipment_id WHERE equipment_maintenance.equipment_id IS NULL')
@@ -134,8 +139,9 @@ def adminDashboard(email, conn):
                         else:
                             for row in rows:
                                 print("Maintenance ID: " + str(row[0]))
-                                print(row[1])
-                                print("Maintenance start date: " + str(row[2]) + "\n")
+                                curs.execute('SELECT equipment_desc FROM equipment WHERE equipment_id = %s', ((row[0],)))
+                                print(curs.fetchone()[0])
+                                print("Maintenance start date: " + str(row[1]) + "\n")
                         choice = input("Which maintenance should be marked as complete?: ")
                         if not choice.isdigit():
                             print("Invalid input\n")
