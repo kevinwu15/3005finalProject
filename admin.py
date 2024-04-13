@@ -19,7 +19,7 @@ def adminDashboard(email, conn):
     with conn:
         with conn.cursor() as curs:
             while True:
-                options = input("1. View Room Bookings\n2. Add Room Booking\n3. Remove Room Booking\n4. Modify Room Booking \n5. Monitor Equipment Maintenance\n6. New Equipment Maintenance\n7. Complete Equipment Maintenance\n8. View Group Classes\n9. Add Group Class\n10. Remove Group Class\n11. Process Payments\n12. Log Out\n")
+                options = input("1. View Room Bookings\n2. Add Room Booking\n3. Remove Room Booking\n4. Modify Room Booking \n5. Monitor Equipment Maintenance\n6. New Equipment Maintenance\n7. Complete Equipment Maintenance\n8. View Group Classes\n9. Add Group Class\n10. Remove Group Class\n11. Modify Group Class\n12. Process Payments\n13. Log Out\n")
                 match options:
                     case "1":
                         curs.execute('SELECT * FROM room_bookings')
@@ -162,6 +162,7 @@ def adminDashboard(email, conn):
                                 curs.execute('SELECT member_email FROM group_session_registered WHERE session_id = %s', ((row[0],)))
                                 print("Registered members:")
                                 print(curs.fetchall())
+                                print()
                         print()
                     
                     case "9":
@@ -192,8 +193,31 @@ def adminDashboard(email, conn):
                         curs.execute('DELETE FROM group_sessions WHERE session_id = %s', ((choice,)))
                         conn.commit()
                         print()
-
+                    
                     case "11":
+                        curs.execute('SELECT * FROM group_sessions')
+                        rows = curs.fetchall()
+                        if rows == []:
+                            print("No group sessions\n")
+                            break
+                        else:
+                            for row in rows:
+                                print("Session ID: " + str(row[0]))
+                                print(row[1])
+                                print(str(row[2]) + "\n")
+                        choice = input("Which session should be modified?: ")
+                        if not choice.isdigit():
+                            print("Invalid input\n")
+                            break
+                        session_name = input("Session name: ")
+                        date = input("Date of group session (in YYYY-MM-DD format): ")
+                        time = input("Time of group session (in HH:MM format): ")
+                        session_time = date + " " + time + ":00"
+                        curs.execute('UPDATE group_sessions SET session_name = %s, timeslot = %s WHERE session_id = %s', ((session_name, session_time, choice)))
+                        conn.commit()
+                        print("Updated session\n")
+
+                    case "12":
                         curs.execute('SELECT * FROM payments WHERE admin_email IS NULL')
                         rows = curs.fetchall()
                         if rows == []:
@@ -202,6 +226,7 @@ def adminDashboard(email, conn):
                         else:
                             for row in rows:
                                 print("Payment ID: " + str(row[0]))
+                                print(row[3] + " Fee")
                                 print(row[1])
                                 print("$" + str(row[2]) + "\n")
                         choice = input("Which payment should be processed?: ")
@@ -212,7 +237,7 @@ def adminDashboard(email, conn):
                         conn.commit()
                         print()
 
-                    case "12":
+                    case "13":
                         break
             curs.close()
             return False
